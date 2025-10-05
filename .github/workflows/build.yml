@@ -1,0 +1,56 @@
+name: Build OTP Releases
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm64' || 'ubuntu-latest' }}
+    container:
+      image: alpine:latest
+
+    strategy:
+      matrix:
+        otp_version:
+          - "28.1"
+        rebar3_version:
+          - "3.25.0"
+        arch:
+          - "x64"
+          - "arm64"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          chmod +x ./build-otp.sh
+          export OTP_VERSION=${{ matrix.otp_version }}
+          export REBAR3_VERISON=${{ matrix.rebar3_version }}
+          ./build.sh
+
+      - name: Create tar.gz archive
+        run: |
+          tar -czf /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz /usr/local/lib/erlang
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: erlang-${{ matrix.otp_version }}-${{ matrix.arch }}
+          path: /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz
+          retention-days: 5
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: otp-${{ matrix.otp_version }}
+          name: OTP ${{ matrix.otp_version }}
+          files: /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
