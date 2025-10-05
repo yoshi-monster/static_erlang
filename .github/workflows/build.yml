@@ -8,9 +8,9 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm64' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     container:
-      image: alpine:3.22
+      image: docker.io/library/alpine:3.22
 
     strategy:
       matrix:
@@ -19,8 +19,8 @@ jobs:
         rebar3_version:
           - "3.25.0"
         arch:
-          - "arm64"
           - "x64"
+          - "arm64"
 
     steps:
       - name: Checkout repository
@@ -31,11 +31,12 @@ jobs:
           chmod +x ./build.sh
           export OTP_VERSION=${{ matrix.otp_version }}
           export REBAR3_VERSION=${{ matrix.rebar3_version }}
-          exec ./build.sh
+          ./build.sh
 
       - name: Create tar.gz archive
         run: |
-          tar -czf /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz /usr/local/lib/erlang
+          cd /usr/local/lib/
+          tar -czf /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz erlang
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

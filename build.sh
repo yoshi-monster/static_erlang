@@ -4,6 +4,7 @@ set -xe
 OTP_DOWNLOAD_URL="https://github.com/erlang/otp/releases/download/OTP-${OTP_VERSION}/otp_src_${OTP_VERSION}.tar.gz"
 REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz"
 export ERL_TOP=/usr/src/otp_src
+export BUILD_TOP="$(pwd)"
 
 apk add --no-cache --virtual .fetch-deps \
 	curl \
@@ -13,8 +14,7 @@ curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL"
 
 apk add --no-cache --virtual .build-deps \
     perl \
-	gcc \
-	g++ \
+    clang \
 	libc-dev \
     linux-headers \
     make \
@@ -30,11 +30,13 @@ rm otp-src.tar.gz
 
 ( cd $ERL_TOP \
     && ./configure \
-        LIBS="-lncursesw -ltinfo -lcrypto -lssl" \
+        CC=clang \
+        CXX=clang \
+        LIBS="-lncursesw -ltinfo -lcrypto -lssl -lstdc++" \
         CFLAGS="-Os" \
         LDFLAGS="-static -static-libgcc -static-libstdc++" \
         --enable-jit \
-        --enable-pie \
+        --disable-pie \
         --with-termcap \
         --without-javac \
         --enable-builtin-zlib \
@@ -45,6 +47,8 @@ rm otp-src.tar.gz
         --without-wx \
         --without-observer \
         --without-reltool \
+        --without-docs \
+        --without-odbc \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install )
 

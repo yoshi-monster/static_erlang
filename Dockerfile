@@ -1,4 +1,4 @@
-FROM alpine
+FROM docker.io/library/alpine:3.22
 
 ENV OTP_VERSION="28.1" \
     REBAR3_VERSION="3.25.0"
