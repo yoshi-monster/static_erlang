@@ -19,8 +19,8 @@ jobs:
         rebar3_version:
           - "3.25.0"
         arch:
-          - "x64"
           - "arm64"
+          - "x64"
 
     steps:
       - name: Checkout repository
@@ -30,7 +30,7 @@ jobs:
         run: |
           chmod +x ./build.sh
           export OTP_VERSION=${{ matrix.otp_version }}
-          export REBAR3_VERISON=${{ matrix.rebar3_version }}
+          export REBAR3_VERSION=${{ matrix.rebar3_version }}
           exec ./build.sh
 
       - name: Create tar.gz archive
