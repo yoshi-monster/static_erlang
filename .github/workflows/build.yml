@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm64' || 'ubuntu-latest' }}
     container:
-      image: alpine:latest
+      image: alpine:3.22
 
     strategy:
       matrix:
@@ -31,7 +31,7 @@ jobs:
           chmod +x ./build.sh
           export OTP_VERSION=${{ matrix.otp_version }}
           export REBAR3_VERISON=${{ matrix.rebar3_version }}
-          ./build.sh
+          exec ./build.sh
 
       - name: Create tar.gz archive
         run: |

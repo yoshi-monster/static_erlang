@@ -63,7 +63,7 @@ rm rebar3-src.tar.gz
 
 cd /usr/src/rebar3-src
 HOME=$PWD ./bootstrap
-install -v ./rebar3 /usr/local/bin/
+install -v ./rebar3 /usr/local/lib/erlang/bin/
 rm -rf /usr/src/rebar3-src
 
 apk del .fetch-deps .build-deps
