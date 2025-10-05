@@ -28,7 +28,7 @@ jobs:
 
       - name: Build
         run: |
-          chmod +x ./build-otp.sh
+          chmod +x ./build.sh
           export OTP_VERSION=${{ matrix.otp_version }}
           export REBAR3_VERISON=${{ matrix.rebar3_version }}
           ./build.sh
