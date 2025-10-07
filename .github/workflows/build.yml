@@ -40,6 +40,10 @@ jobs:
           cd /usr/local/lib/
           tar -czf /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz erlang
 
+      - name: Install Release Dependencies
+        run: |
+          apk --no-cache add curl ca-certificates
+
       - name: Upload to release
         uses: ahsand97/upload-assets-to-release-with-go@v0.1.1
         with:
