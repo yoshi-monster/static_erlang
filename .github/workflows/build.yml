@@ -40,20 +40,9 @@ jobs:
           cd /usr/local/lib/
           tar -czf /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz erlang
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: erlang-${{ matrix.otp_version }}-${{ matrix.arch }}
-          path: /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz
-          retention-days: 5
-
       - name: Upload to release
-        uses: softprops/action-gh-release@v1
+        uses: ahsand97/upload-assets-to-release-with-go@v0.1.1
         with:
-          tag_name: otp-${{ matrix.otp_version }}
-          name: OTP ${{ matrix.otp_version }}
+          tag: otp-${{ matrix.otp_version }}
           files: /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
