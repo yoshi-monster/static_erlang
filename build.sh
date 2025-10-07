@@ -70,4 +70,6 @@ HOME=$PWD ./bootstrap
 install -v ./rebar3 /usr/local/lib/erlang/bin/
 rm -rf /usr/src/rebar3-src
 
+apk list -I > /usr/local/lib/erlang/versions.txt
+
 apk del .fetch-deps .build-deps

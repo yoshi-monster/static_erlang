@@ -14,7 +14,7 @@
 
 Header files are included as well because they are part of the final installation, but might be removed in the future as they serve no purpose.
 
-Additionally, the Tarball also includes a prebuilt version of [rebar3](https://github.com/erlang/rebar3).
+Additionally, the Tarball also includes a prebuilt version of [rebar3](https://github.com/erlang/rebar3). The installed packages on the build system are written into a file called `versions.txt` that is included in the archive.
 
 ## What about NIFs?
 
