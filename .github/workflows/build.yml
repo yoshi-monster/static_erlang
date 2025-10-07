@@ -13,6 +13,7 @@ jobs:
       image: alpine:3.22
 
     strategy:
+      fail-fast: false
       matrix:
         otp_version:
           - "28.1"
