@@ -45,8 +45,8 @@ rm otp-src.tar.gz
         --enable-static-nifs \
         --enable-static-drivers \
         --without-wx \
+        --without-debugger \
         --without-observer \
-        --without-reltool \
         --without-docs \
         --without-odbc \
     && make -j$(getconf _NPROCESSORS_ONLN) \
