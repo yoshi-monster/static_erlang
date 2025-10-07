@@ -44,6 +44,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          apk add --no-cache github-cli
           gh release create otp-${{ matrix.otp_version }} \
             /tmp/erlang-${{ matrix.otp_version }}-${{ matrix.arch }}.tar.gz \
             --title "OTP ${{ matrix.otp_version }}" \
