@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     container:
-      image: docker.io/library/alpine:3.22
+      image: alpine:3.22
 
     strategy:
       matrix:
@@ -24,7 +24,9 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: taiki-e/checkout-action@v1
+        with:
+          persist-credentials: true
 
       - name: Build
         run: |
