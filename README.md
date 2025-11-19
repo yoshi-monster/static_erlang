@@ -1,3 +1,8 @@
+> [!WARNING]
+> This project has been migrated to [gleam-community](https://github.com/gleam-community/erlang-linux-builds)! Head over there for the latest version!
+
+---
+
 # Unofficial Erlang Binaries
 
 ## What is this?
